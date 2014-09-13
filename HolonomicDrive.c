@@ -17,51 +17,32 @@ void drive()
 
 	int threshold = 20;
 
-	int x = joystick.joy1_x1;
-	int y = joystick.joy1_y1;
+	int x = -1*joystick.joy1_x1;
+	int y = -1*joystick.joy1_y1;
 
-	if (abs(y) > threshold ) {
-		if (y < 0) {
-			motor[front_right] = 100;
-			motor[front_left] = 100;
-		  motor[back_right] = 100;
-		  motor[back_left] = 100;
-		}
-		else if (y > 0) {
-			motor[front_right] = -100;
-			motor[front_left] = -100;
-		  motor[back_right] = -100;
-		  motor[back_left] = -100;
-		}
-	}
-	else if (abs(x) > threshold ) {
-		if (x > 0) {
-			motor[front_right] = -100;
-			motor[front_left] = 100;
-			motor[back_right] = 100;
-			motor[back_left] = -100;
-		}
-		else if (x < 0) {
-			motor[front_right] = 100;
-			motor[front_left] = -100;
-			motor[back_right] = -100;
-			motor[back_left] = 100;
-		}
-	}
-	else {
-		motor[front_right] = 0;
-		motor[front_left] = 0;
-		motor[back_right] = 0;
-		motor[back_left] = 0;
-	}
+	float angle = atan((float)x/(float)y);
+	float length = sqrt(pow(x,2)+pow(y,2));
 
-	nxtDisplayBigTextLine(3, "X: %d Y: %d", x, y);
+	if(length < 20){
+		length = 0;
+  }
+
+	int f_left = -100*cos((PI/4)-angle)*length;
+	int f_right = 100*cos((PI/4)+angle)*length;
+	int b_left = -100*cos((PI/4)+angle)*length;
+	int b_right = 100*cos((PI/4)-angle)*length;
+
+	motor[front_left] = f_left;
+	motor[front_right] = f_right;
+	motor[back_left] = b_left;
+	motor[back_right] = b_right;
+
+	//nxtDisplayBigTextLine(3, "X: %d Y: %d", x, y);
 }
 
 task main()
 {
 	while (true) {
-		//drive();
-	  motor[front_left]
+		drive();
 	}
 }
