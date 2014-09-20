@@ -17,10 +17,18 @@ void drive()
 
 	int threshold = 20;
 
-	int x = -1*joystick.joy1_x1;
+	int x = joystick.joy1_x1;
 	int y = -1*joystick.joy1_y1;
 
-	float angle = atan((float)x/(float)y);
+	float angle = 0;
+
+	if(y>0){
+		angle = atan((float)y/(float)x);
+	}else{
+		angle = PI + atan((float)y/(float)x);
+  }
+
+
 	float length = sqrt(pow(x,2)+pow(y,2));
 
 	if(length < 20){
@@ -29,7 +37,7 @@ void drive()
 
 	int f_left = -100*cos((PI/4)-angle)*length;
 	int f_right = 100*cos((PI/4)+angle)*length;
-	int b_left = -100*cos((PI/4)+angle)*length;
+	int b_left = 100*cos((PI/4)+angle)*length;
 	int b_right = 100*cos((PI/4)-angle)*length;
 
 	motor[front_left] = f_left;
