@@ -44,23 +44,21 @@ void drive()
 	int rotR;
 
 	float angle = atan2(y,x);
-
-	if(rot>20){
-		rotL=50;
-		rotR=-50;
-  }else if(rot<-20){
-  	rotL=-50;
-  	rotR=50;
-  }else{
-  	rotL=0;
-  	rotR=0;
-  }
-
 	float length = sqrt(pow(x,2)+pow(y,2));
 
 	if(length < threshold){
 		length = 0;
-  }
+  	}
+
+	if (abs(rot) < threshold) {
+		rotL = 0;
+		rotR = 0;
+	}
+
+	else {
+		rotL = 0.39 * rot; // 0.39 = 50/127
+		rotR = -0.39 * rot;
+	}
 
 	int f_left = 0.78*cos(angle-(PI/4))*length+rotL;
 	int f_right = 0.78*cos(angle+(PI/4))*length+rotL;
@@ -73,11 +71,4 @@ void drive()
 	motor[back_right] = b_right;
 
 	//nxtDisplayBigTextLine(3, "X: %d Y: %d", x, y);
-}
-
-task main()
-{
-	while (true) {
-		drive();
-	}
 }
