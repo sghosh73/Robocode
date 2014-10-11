@@ -11,6 +11,8 @@
 
 #include "JoystickDriver.c"
 
+#define ROT_CONST 0.39 
+#define DRIVE_CONST 0.78
 
 /*
 Drive configuration:
@@ -56,14 +58,14 @@ void drive()
 	}
 
 	else {
-		rotL = 0.39 * rot; // 0.39 = 50/127
-		rotR = -0.39 * rot;
+		rotL = ROT_CONST * rot; 
+		rotR = ROT_CONST * rot;
 	}
 
-	int f_left = 0.78*cos(angle-(PI/4))*length+rotL;
-	int f_right = 0.78*cos(angle+(PI/4))*length+rotL;
-	int b_left = 0.78*cos(angle+(PI/4))*length+rotR;
-	int b_right = 0.78*cos(angle-(PI/4))*length+rotR;
+	int f_left = DRIVE_CONST * cos(angle-(PI/4)) * length + rotL;
+	int f_right = DRIVE_CONST * cos(angle+(PI/4)) * length + rotL;
+	int b_left = DRIVE_CONST * cos(angle+(PI/4)) * length + rotR;
+	int b_right = DRIVE_CONST * cos(angle-(PI/4)) * length + rotR;
 
 	motor[front_left] = f_left;
 	motor[front_right] = f_right;
