@@ -16,6 +16,10 @@
 
 #include "JoystickDriver.c"
 
+#define FIRST_LEVEL
+#define SECOND_LEVEL
+#define THIRD_LEVEL
+
 /*
 Drive configuration:
 
@@ -34,7 +38,7 @@ Drive configuration:
 
   Positive rotation is forward
 */
-void drive()
+void HoloDrive()
 {
 	getJoystickSettings(joystick);
 
@@ -49,22 +53,24 @@ void drive()
 
 	float angle = atan2(y,x);
 
-	if(rot>20){
+	if (rot > 20){
 		rotL=50;
 		rotR=-50;
-  }else if(rot<-20){
-  	rotL=-50;
-  	rotR=50;
-  }else{
-  	rotL=0;
-  	rotR=0;
-  }
+    }
+    else if (rot <= 20){
+  	    rotL = -50;
+  	    rotR = 50;
+    }
+    else {
+  	    rotL = 0;
+  	    rotR = 0;
+    }
 
 	float length = sqrt(pow(x,2)+pow(y,2));
 
-	if(length < threshold){
+	if (length < threshold){
 		length = 0;
-  }
+    }
 
 	int f_left = 0.78*cos(angle+(PI/4)+(PI/2))*length+rotL;
 	int f_right = 0.78*cos(angle-(PI/4)+(PI/2))*length+rotL;
@@ -79,17 +85,64 @@ void drive()
 	//nxtDisplayBigTextLine(3, "X: %d Y: %d", x, y);
 }
 
+void TankDrive()
+{
+	getJoystickSettings(joystick);			 // Allows use of Joysticks
+
+	int leftspeed = joystick.joy1_y1;
+ 	int rightspeed = joystick.joy1_y2;
+  	int threshold = 20;
+
+	if (abs(leftspeed) < threshold) { 
+		motor[front_left] = 0; 
+		motor[back_left] = 0;
+	}
+	else { 
+		motor[front_left] = leftspeed; 
+		motor[back_left] = leftspeed;
+	}
+
+	if (abs(rightspeed) < threshold) { 
+		motor[front_left] = 0; 
+		motor[back_left] = 0;
+	}
+	else { 
+		motor[front_left] = rightspeed; 
+		motor[back_left] = rightspeed;
+	}
+}
+
 task main()
 {
 	motor[spinnerA] = 0;
-  motor[spinnerB] = 0;
+  	motor[spinnerB] = 0;
 
 	servo[director1] = 128;
 	servo[director2] = 128;
 
+	bool switcher = false;
+	bool isPressed = false;
+
 	while (true) {
 
-		drive();
+		if(joy1Btn(01) && !isPressed){
+			if (switcher){
+			   switcher = false;
+		   	}
+		   else {
+		     switcher = true;
+		   }
+		   isPressed = true;
+		}
+		if (!joy1Btn(01) && isPressed) {
+    		isPressed = false;
+    	}
+		if (!switcher) {
+         	HoloDrive();
+		}
+    	else {
+    		TankDrive();
+    	}
 
 		getJoystickSettings(joystick);
 
