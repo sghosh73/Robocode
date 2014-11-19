@@ -1,11 +1,13 @@
-#pragma config(Hubs,  S4, HTServo,  HTMotor,  HTMotor,  none)
+#pragma config(Hubs,  S4, HTServo,  HTMotor,  HTMotor,  HTMotor)
 #pragma config(Sensor, S4,     ,               sensorI2CMuxController)
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C2_1,     back_right,    tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C2_1,     front_left,    tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C2_2,     front_right,   tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C3_1,     front_left,    tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C3_2,     back_left,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_1,     back_left,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_2,     back_right,    tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C4_1,     lift_left,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C4_2,     lift_right,    tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S4_C1_1,    director1,            tServoContinuousRotation)
 #pragma config(Servo,  srvo_S4_C1_2,    director2,            tServoContinuousRotation)
 #pragma config(Servo,  srvo_S4_C1_3,    lift1,                tServoContinuousRotation)
@@ -70,7 +72,7 @@ void HoloDrive()
 
 	if (length < threshold){
 		length = 0;
-    }
+  }
 
 	int f_left = 0.78*cos(angle+(PI/4)+(PI/2))*length+rotL;
 	int f_right = 0.78*cos(angle-(PI/4)+(PI/2))*length+rotL;
@@ -89,33 +91,36 @@ void TankDrive()
 {
 	getJoystickSettings(joystick);			 // Allows use of Joysticks
 
-	int leftspeed = joystick.joy1_y1;
- 	int rightspeed = joystick.joy1_y2;
-  	int threshold = 20;
+	int leftspeed = -joystick.joy1_y1;
+ 	int rightspeed = -joystick.joy1_y2;
+  int threshold = 20;
 
-	if (abs(leftspeed) < threshold) { 
-		motor[front_left] = 0; 
+  //motor[lift_left] = 50;
+  //motor[lift_right] = 50;
+
+	if (abs(leftspeed) < threshold) {
+		motor[front_left] = 0;
 		motor[back_left] = 0;
 	}
-	else { 
-		motor[front_left] = leftspeed; 
+	else {
+		motor[front_left] = leftspeed;
 		motor[back_left] = leftspeed;
 	}
 
-	if (abs(rightspeed) < threshold) { 
-		motor[front_left] = 0; 
-		motor[back_left] = 0;
+	if (abs(rightspeed) < threshold) {
+		motor[front_right] = 0;
+		motor[back_right] = 0;
 	}
-	else { 
-		motor[front_left] = rightspeed; 
-		motor[back_left] = rightspeed;
+	else {
+		motor[front_right] = rightspeed;
+		motor[back_right] = rightspeed;
 	}
 }
 
 task main()
 {
 	motor[spinnerA] = 0;
-  	motor[spinnerB] = 0;
+  motor[spinnerB] = 0;
 
 	servo[director1] = 128;
 	servo[director2] = 128;
@@ -128,22 +133,23 @@ task main()
 		if(joy1Btn(01) && !isPressed){
 			if (switcher){
 			   switcher = false;
-		   	}
-		   else {
+		  }
+		  else {
 		     switcher = true;
-		   }
-		   isPressed = true;
+		  }
+	  	isPressed = true;
 		}
-		
+
 		if (!joy1Btn(01) && isPressed) {
-    		isPressed = false;
-    	}
+    	isPressed = false;
+    }
+
 		if (!switcher) {
-         	HoloDrive();
+     	TankDrive();
 		}
-    	else {
-    		TankDrive();
-    	}
+    else {
+    	HoloDrive();
+    }
 
 		getJoystickSettings(joystick);
 
@@ -165,18 +171,20 @@ task main()
 			servo[director2] = 200;
 		}
 
-
-		if (joy1Btn(1)) {
-			servo[lift1] = 255;
-			servo[lift2] = 0;
+		//lift up
+		if (joy1Btn(02)) {
+			motor[lift_right] = 50;
+			motor[lift_left] = 50;
 		}
-		else if (joy1Btn(3)) {
-			servo[lift1] = 0;
-			servo[lift2] = 255;
+		//lift donw
+		else if (joy1Btn(03)) {
+			motor[lift_right] = -50;
+			motor[lift_left] = -50;
 		}
+		//lift stopped
 		else {
-			servo[lift1] = 128;
-			servo[lift2] = 128;
+			motor[lift_right] = 0;
+			motor[lift_left] = 0;
 		}
 
 		if (joy1Btn(6)) {
