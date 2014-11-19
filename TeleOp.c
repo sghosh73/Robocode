@@ -16,9 +16,9 @@
 
 #include "JoystickDriver.c"
 
-#define FIRST_LEVEL
-#define SECOND_LEVEL
-#define THIRD_LEVEL
+// #define FIRST_LEVEL
+// #define SECOND_LEVEL
+// #define THIRD_LEVEL
 
 /*
 Drive configuration:
@@ -134,6 +134,7 @@ task main()
 		   }
 		   isPressed = true;
 		}
+		
 		if (!joy1Btn(01) && isPressed) {
     		isPressed = false;
     	}
