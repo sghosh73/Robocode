@@ -18,6 +18,10 @@
 
 #include "JoystickDriver.c"
 
+/*
+ THESE ARE ENCODER VALUES FOR LIFT LEVELS
+*/
+
 // #define FIRST_LEVEL
 // #define SECOND_LEVEL
 // #define THIRD_LEVEL
@@ -120,7 +124,7 @@ void TankDrive()
 task main()
 {
 	motor[spinnerA] = 0;
-  motor[spinnerB] = 0;
+  	motor[spinnerB] = 0;
 
 	servo[director1] = 128;
 	servo[director2] = 128;
@@ -154,7 +158,7 @@ task main()
 		getJoystickSettings(joystick);
 
 		//stops spinners
-		if (joy1Btn(5)) {
+		if (joy1Btn(05)) {
 			motor[spinnerA] = 0;
 			motor[spinnerB] = 0;
 
@@ -163,7 +167,7 @@ task main()
 		}
 
 		//spins spinner
-		if (joy1Btn(7)) {
+		if (joy1Btn(07)) {
 			motor[spinnerA] = -100;
 			motor[spinnerB] = -100;
 
@@ -187,7 +191,7 @@ task main()
 			motor[lift_left] = 0;
 		}
 
-		if (joy1Btn(6)) {
+		if (joy1Btn(06)) {
 			servo[door] = 100;
 		}
 
