@@ -56,3 +56,8 @@ void turnright(int speed, int distance)
 	motor[back_right] = 0;
     wait1Msec(10);
 }
+
+task main()
+{
+	waitForStart();
+}
