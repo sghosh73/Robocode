@@ -185,18 +185,15 @@ task main()
 
 		//lift up
 		if (joy2Btn(04) || joy1Btn(04)) {
-			motor[lift_right] = 50;
-			motor[lift_left] = 50;
+			motor[lift] = 50;
 		}
 		//lift donw
 		else if (joy2Btn(02) || joy1Btn(02)) {
-			motor[lift_right] = -50;
-			motor[lift_left] = -50;
+			motor[lift] = -50;
 		}
 		//lift stopped
 		else {
-			motor[lift_right] = 0;
-			motor[lift_left] = 0;
+			motor[lift] = 0;
 		}
 
 		if ((joy1Btn(03) || joy2Btn(03)) && !doorPressed) {
