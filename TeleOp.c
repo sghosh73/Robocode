@@ -98,12 +98,10 @@ void TankDrive()
 {
 	getJoystickSettings(joystick);			 // Allows use of Joysticks
 
-	int leftspeed = -joystick.joy1_y1;
- 	int rightspeed = -joystick.joy1_y2;
+	int leftspeed = -1 * joystick.joy1_y1;
+ 	int rightspeed = -1 * joystick.joy1_y2;
   	int threshold = 20;
 
-  //motor[lift_left] = 50;
-  //motor[lift_right] = 50;
 
 	if (abs(leftspeed) < threshold) {
 		motor[front_left] = 0;
