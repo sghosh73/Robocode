@@ -18,6 +18,9 @@
 
 #include "JoystickDriver.c"
 
+#define DOOR_UP 0
+#define DOOR_DOWN 0
+
 /*
  THESE ARE ENCODER VALUES FOR LIFT LEVELS
 */
@@ -97,7 +100,7 @@ void TankDrive()
 
 	int leftspeed = -joystick.joy1_y1;
  	int rightspeed = -joystick.joy1_y2;
-  int threshold = 20;
+  	int threshold = 20;
 
   //motor[lift_left] = 50;
   //motor[lift_right] = 50;
@@ -108,7 +111,7 @@ void TankDrive()
 	}
 	else {
 		motor[front_left] = leftspeed;
-		motor[back_left] = leftspeed;
+		motor[back_left] = l-eftspeed;
 	}
 
 	if (abs(rightspeed) < threshold) {
@@ -117,7 +120,7 @@ void TankDrive()
 	}
 	else {
 		motor[front_right] = rightspeed;
-		motor[back_right] = rightspeed;
+		motor[back_right] = -rightspeed;
 	}
 }
 
@@ -129,8 +132,15 @@ task main()
 	servo[director1] = 128;
 	servo[director2] = 128;
 
+	servo[door] = DOOR_UP;
+
 	bool switcher = false;
 	bool isPressed = false;
+
+	bool doorSwitcher = false;
+	bool doorPressed = false;
+
+	getJoystickSettings(joystick);
 
 	while (true) {
 
@@ -141,21 +151,19 @@ task main()
 		  else {
 		     switcher = true;
 		  }
-	  	isPressed = true;
+	  		isPressed = true;
 		}
 
 		if (!joy1Btn(01) && isPressed) {
-    	isPressed = false;
-    }
+    		isPressed = false;
+    	}
 
 		if (!switcher) {
-     	TankDrive();
+     		TankDrive();
 		}
-    else {
-    	HoloDrive();
-    }
-
-		getJoystickSettings(joystick);
+    	else {
+    		TankDrive();
+    	}
 
 		//stops spinners
 		if (joy1Btn(05)) {
@@ -176,12 +184,12 @@ task main()
 		}
 
 		//lift up
-		if (joy1Btn(02)) {
+		if (joy2Btn(04) || joy1Btn(04)) {
 			motor[lift_right] = 50;
 			motor[lift_left] = 50;
 		}
 		//lift donw
-		else if (joy1Btn(03)) {
+		else if (joy2Btn(02) || joy1Btn(02)) {
 			motor[lift_right] = -50;
 			motor[lift_left] = -50;
 		}
@@ -191,9 +199,26 @@ task main()
 			motor[lift_left] = 0;
 		}
 
-		if (joy1Btn(06)) {
-			servo[door] = 100;
+		if ((joy1Btn(03) || joy2Btn(03)) && !doorPressed) {
+			if (doorSwitcher){
+			   doorSwitcher = false;
+		  }
+		  else {
+		     doorSwitcher = true;
+		  }
+	  		doorPressed = true;
 		}
+
+		if (!joy1Btn(01) && doorPressed) {
+    		doorPressed = false;
+    	}
+
+		if (!doorSwitcher) {
+     		servo[door] = DOOR_DOWN;
+		}
+    	else {
+    		servo[door] = DOOR_UP;
+    	}
 
 	}
 }
