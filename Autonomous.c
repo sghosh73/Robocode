@@ -18,46 +18,34 @@
 
 #include "JoystickDriver.c"
 
-//CHANGE ENCODER STUFF
-void driveforward(int speed, int distance)
-{
-	nMotorEncoder[left] = 0;
-	nMotorEncoder[right] = 0;
-  	motor[front_left] = speed;
-  	motor[back_left] = speed;
-  	motor[front_right] = speed;
-  	motor[back_right] = speed;
-	while (abs((nMotorEncoder(left) + nMotorEncoder(right))) < (distance *2)) {}
-	motor[front_left] = 0;
-	motor[right] = 0;
-	wait1Msec(10);
-}
-
-void turnleft(int speed, int distance)
-{
-
-	//change encoder values
-  nMotorEncoder[left] = 0;
-  motor[front_left] = speed;
-  motor[back_left] = speed;
-  while (abs(nMotorEncoder(left)) < distance) {}
-  motor[front_left] = 0;
-  motor[back_left] = 0;
-  wait1Msec(10);
-}
-
-void turnright(int speed, int distance)
-{
-	nMotorEncoder[right] = 0;
-    motor[front_right] = speed;
-    motor[back_right] = speed;
-    while (abs(nMotorEncoder(right)) < distance) {}
-    motor[front_right] = 0;
-	motor[back_right] = 0;
-    wait1Msec(10);
-}
 
 task main()
 {
 	waitForStart();
+
+  ClearTimer(T1);
+
+  wait1Msec(1000);
+
+  while (time100[T1] <= 50) {
+    motor[front_right] = 100;
+    motor[front_left] = 100;
+    motor[back_right] = -100;
+    motor[back_left] = -100;
+  }
+
+  wait1Msec(1000);
+
+  ClearTimer(T1);
+
+  wait1Msec(1000);
+
+  while (time100[T1] <= 10) {
+    motor[lift] = -50;
+  }
+
+  wait1Msec(1000);
+
+  servo[door] = ;
+
 }
