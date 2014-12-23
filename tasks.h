@@ -21,8 +21,9 @@
 #define LIFT_HEIGHT 0
 #define DOOR_UP 0
 #define DOOR_DOWN 0
+#define TILE_LENGTH 0
 
-void driveForward(int speed, int distance)
+void driveForward(int speed, int tiles)
 {
 	nMotorEncoder[right] = 0;
 	nMotorEncoder[left] = 0;
@@ -39,23 +40,14 @@ void driveForward(int speed, int distance)
 	motor[right] = 0;
 }
 
-void strafeRight(int speed, int distance)
-{
 
-}
-
-void strafeLeft(int speed, int distance)
-{
-
-}
-
-void driveBackward(int speed, int distance)
+void driveBackward(int speed, int tiles)
 {
 	nMotorEncoder[right] = 0;
 	nMotorEncoder[left] = 0;
 
-	nMotorEncoderTarget[right] = distance;
-	nMotorEncoderTarget[left] = distance;
+	nMotorEncoderTarget[right] = TILE_LENGTH * tiles;
+	nMotorEncoderTarget[left] = TILE_LENGTH * tiles;
 
 	motor[left] = speed;
 	motor[right] = -speed;
@@ -66,11 +58,11 @@ void driveBackward(int speed, int distance)
 	motor[right] = 0;
 }
 
-void turnRight(int speed, int distance)
+void turnRight(int speed, int tiles)
 {
 	nMotorEncoder[right] = 0;
 
-	nMotorEncoderTarget[right] = distance;
+	nMotorEncoderTarget[right] = TILE_LENGTH * tiles;
 
 	motor[right] = speed;
 
@@ -80,11 +72,11 @@ void turnRight(int speed, int distance)
 	wait1Msec(10);
 }
 
-void turnLeft(int speed, int distance)
+void turnLeft(int speed, int tiles)
 {
 	nMotorEncoder[left] = 0;
 
-	nMotorEncoderTarget[left] = distance;
+	nMotorEncoderTarget[left] = TILE_LENGTH * tiles;
 
 	motor[left] = speed;
 
@@ -94,13 +86,13 @@ void turnLeft(int speed, int distance)
 	wait1Msec(10);
 }
 
-void point_turn(int speed, int distance)
+void point_turn(int speed, int tiles)
 {
 	nMotorEncoder[left] = 0;
 	nMotorEncoder[right] = 0;
 
-	nMotorEncoderTarget[right] = distance;
-	nMotorEncoderTarget[left] = distance;
+	nMotorEncoderTarget[right] = TILE_LENGTH * tiles;
+	nMotorEncoderTarget[left] = TILE_LENGTH * tiles;
 
 	motor[left] = speed;
 	motor[right] = -speed;
@@ -126,7 +118,7 @@ void raiseLift()
 void depositBall()
 {
 	servo[door] = DOOR_DOWN;
-	wait1Msec(500);
+	wait1Msec(1000);
 	servo[door] = DOOR_UP;
 }
 

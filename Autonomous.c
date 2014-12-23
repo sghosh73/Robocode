@@ -26,21 +26,22 @@
 
 
 
-void runAutonomous(Autonomous a) {
+void runAutonomous(int instructions[]) {
+	int state = instructions[0];
 
 }
 
 task main()
 {
 
-	Autonomous auto;
+	int instructions[4];
 
 	eraseDisplay();
 
-	displayOptionsMenu(auto); //display options menu
+	displayOptionsMenu(instructions); //display options menu
 
 	waitForStart();
 
-	runAutonomous(auto);
+	runAutonomous(instructions);
 
 }

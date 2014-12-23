@@ -16,15 +16,6 @@
 Data structure for Autonomous Program
 */
 
-typedef struct Autonomous {
-
-	int starting;
-	int block1;
-	int block2;
-	int block3;
-
-} Autonomous;
-
 
 int getButton()
 {
@@ -38,7 +29,7 @@ int getButton()
 }
 
 
-void displayOptionsMenu(Autonomous &new)
+void displayOptionsMenu(int &instructions)
 {
 	bool done = false;
 	eraseDisplay();
@@ -57,7 +48,7 @@ void displayOptionsMenu(Autonomous &new)
 
 	      case 3:
 	      	eraseDisplay();
-	      	new.starting = start_pos;
+	      	instructions[0] = start_pos;
 	      	done = true;
 	    }
 
@@ -87,7 +78,7 @@ void displayOptionsMenu(Autonomous &new)
 	      case 3:
 	      	eraseDisplay();
 	      	done = true;
-	      	new.block1 = block1;
+	      	instructions[1] = block1;
 	    }
 
 		if (block1 == CENTER_SCORE)
@@ -114,7 +105,7 @@ void displayOptionsMenu(Autonomous &new)
 	      case 3:
 	      	eraseDisplay();
 	      	done = true;
-	      	new.block2 = block2;
+	      	instructions[2] = block2;
 	    }
 	    if (block2 == TOW){
 			nxtDisplayTextLine(2, "Tow");
@@ -142,7 +133,7 @@ void displayOptionsMenu(Autonomous &new)
 	      case 3:
 	      	eraseDisplay();
 	      	done = true;
-	      	new.block3 = block3;
+	      	instructions[3] = block3;
 	    }
 	    	if (block3 == PARKING_END)
 			nxtDisplayTextLine(2, "Parking");
