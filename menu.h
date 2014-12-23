@@ -1,6 +1,10 @@
 #ifndef MENU_H
 #define MENU_H
 
+/*
+Constants for autonomous
+*/
+
 #define RAMP_STARTING 0
 #define PARKING_STARTING 1
 
@@ -12,9 +16,6 @@
 
 #define PARKING_END 1
 
-/*
-Data structure for Autonomous Program
-*/
 
 
 int getButton()
@@ -34,6 +35,7 @@ void displayOptionsMenu(int &instructions)
 	bool done = false;
 	eraseDisplay();
 
+	//select starting positions
 	while (!done) {
 		int start_pos = PARKING_STARTING;
 		nxtDisplayTextLine(0, "Starting position");
@@ -63,6 +65,7 @@ void displayOptionsMenu(int &instructions)
 		done = false;
     eraseDisplay();
 
+    //select next step
 	 while (!done) {
 	   int block1 = CENTER_SCORE;
 			nxtDisplayTextLine(0, "Next Step");
@@ -89,7 +92,7 @@ void displayOptionsMenu(int &instructions)
 			done = false;
 			eraseDisplay();
 
-
+	   //select next step
 	   while (!done) {
 	     int block2 = 0;
 		nxtDisplayTextLine(0, "Next Step 2");
@@ -117,6 +120,7 @@ void displayOptionsMenu(int &instructions)
 			done = false;
 	    eraseDisplay();
 
+	 //select next step
 	 while (!done) {
 	    int block3 = PARKING_END;
 		nxtDisplayTextLine(0, "Final Step");

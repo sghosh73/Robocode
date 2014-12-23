@@ -25,7 +25,7 @@
 #define RAMP_DISTANCE 0
 
 
-
+//implement state machine for autonomous
 void runAutonomous(int instructions[]) {
 	int state = instructions[0];
 
@@ -34,7 +34,7 @@ void runAutonomous(int instructions[]) {
 task main()
 {
 
-	int instructions[4];
+	int instructions[4]; //will hold instructions for running autonomous
 
 	eraseDisplay();
 
