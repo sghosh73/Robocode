@@ -43,13 +43,14 @@ void displayOptionsMenu(Autonomous a)
 	while (!done) {
 
 		int start_pos = PARKING_STARTING;
-		nxtDisplayString(0, "Starting Position");
+		nxtDisplayCenteredBigTextLine(0, "Starting Position");
 
-		if (start_pos == PARKING_STARTING)
-			nxtDisplayString(2, "Parking zone");
-		else
-			nxtDisplayString(2, "Ramp");
-
+		if (start_pos == PARKING_STARTING) {
+			nxtDisplayTextLine(2, "Parking zone");
+		}
+		else if (start_pos == RAMP_STARTING){
+			nxtDisplayTextLine(3, "Ramp");
+		}
 		switch (getButton()) {  // Get a button
 	      case 1: // Right arrow button
 	        start_pos = PARKING_STARTING; // Increase by a second
@@ -61,15 +62,20 @@ void displayOptionsMenu(Autonomous a)
 
 	      case 3:
 	      	eraseDisplay();
+	      	done = true;
 	      	a.starting = start_pos;
 	    }
+}
+	    eraseDisplay();
+	    done = false;
 
-	    int block1 = CENTER_SCORE;
+	    while (!done) {
+	   int block1 = CENTER_SCORE;
 		nxtDisplayString(0, "Next Step");
 
 		if (block1 == CENTER_SCORE)
 			nxtDisplayString(2, "Center Goal");
-		else
+		else if (block1 == TUBE_SCORE)
 			nxtDisplayString(2, "Tube Goal");
 
 		switch (getButton()) {  // Get a button
@@ -83,15 +89,21 @@ void displayOptionsMenu(Autonomous a)
 
 	      case 3:
 	      	eraseDisplay();
+	      	done = true;
 	      	a.block1 = block1;
 	    }
+	}
+			done = false;
+			eraseDisplay();
 
 	    int block2 = TOW;
-		nxtDisplayString(0, "Next Step");
+
+	   while (!done) {
+		nxtDisplayString(0, "Next Step 2");
 
 		if (block2 == TOW)
 			nxtDisplayString(2, "Tow");
-		else
+		else if (block2 = KICKSTAND)
 			nxtDisplayString(2, "Kickstand");
 
 		switch (getButton()) {  // Get a button
@@ -108,8 +120,9 @@ void displayOptionsMenu(Autonomous a)
 	      	a.block2 = block2;
 	    }
 
+	    eraseDisplay();
 	    int block3 = PARKING_END;
-		nxtDisplayString(0, "Next Step");
+		nxtDisplayString(0, "Next Step 3");
 
 		if (block3 == PARKING_END)
 			nxtDisplayString(2, "Parking");
@@ -127,10 +140,11 @@ void displayOptionsMenu(Autonomous a)
 
 	      case 3:
 	      	eraseDisplay();
+	      	done = true;
 	      	a.block3 = block3;
 	    }
-	    done = true;
 	}
+	    done = true;
 }
 
 task main()
