@@ -7,7 +7,7 @@
 #define KICKSTAND 0
 #define TOW 1
 
-#define PARKING_END 0
+#define PARKING_END 1
 
 /*
 Data structure for Autonomous Program
@@ -41,16 +41,8 @@ void displayOptionsMenu(Autonomous a)
 	eraseDisplay();
 
 	while (!done) {
-
 		int start_pos = PARKING_STARTING;
-		nxtDisplayCenteredBigTextLine(0, "Starting Position");
-
-		if (start_pos == PARKING_STARTING) {
-			nxtDisplayTextLine(2, "Parking zone");
-		}
-		else if (start_pos == RAMP_STARTING){
-			nxtDisplayTextLine(3, "Ramp");
-		}
+		nxtDisplayTextLine(0, "Starting position");
 		switch (getButton()) {  // Get a button
 	      case 1: // Right arrow button
 	        start_pos = PARKING_STARTING; // Increase by a second
@@ -62,22 +54,24 @@ void displayOptionsMenu(Autonomous a)
 
 	      case 3:
 	      	eraseDisplay();
-	      	done = true;
 	      	a.starting = start_pos;
+	      	done = true;
 	    }
-}
-	    eraseDisplay();
-	    done = false;
 
-	    while (!done) {
+		if (start_pos == PARKING_STARTING) {
+			nxtDisplayTextLine(2, "Parking zone");
+		}
+		else if (start_pos == RAMP_STARTING){
+			nxtDisplayTextLine(2, "Ramp");
+		}
+	}
+
+		done = false;
+    eraseDisplay();
+
+	 while (!done) {
 	   int block1 = CENTER_SCORE;
-		nxtDisplayString(0, "Next Step");
-
-		if (block1 == CENTER_SCORE)
-			nxtDisplayString(2, "Center Goal");
-		else if (block1 == TUBE_SCORE)
-			nxtDisplayString(2, "Tube Goal");
-
+			nxtDisplayTextLine(0, "Next Step");
 		switch (getButton()) {  // Get a button
 	      case 1: // Right arrow button
 	        block1 = CENTER_SCORE; // Increase by a second
@@ -92,20 +86,19 @@ void displayOptionsMenu(Autonomous a)
 	      	done = true;
 	      	a.block1 = block1;
 	    }
+
+		if (block1 == CENTER_SCORE)
+			nxtDisplayTextLine(2, "Center Goal");
+		else if (block1 == TUBE_SCORE)
+			nxtDisplayTextLine(2, "Tube Goal");
 	}
 			done = false;
 			eraseDisplay();
 
-	    int block2 = TOW;
 
 	   while (!done) {
-		nxtDisplayString(0, "Next Step 2");
-
-		if (block2 == TOW)
-			nxtDisplayString(2, "Tow");
-		else if (block2 = KICKSTAND)
-			nxtDisplayString(2, "Kickstand");
-
+	     int block2 = 0;
+		nxtDisplayTextLine(0, "Next Step 2");
 		switch (getButton()) {  // Get a button
 	      case 1: // Right arrow button
 	        block2 = TOW; // Increase by a second
@@ -117,17 +110,22 @@ void displayOptionsMenu(Autonomous a)
 
 	      case 3:
 	      	eraseDisplay();
+	      	done = true;
 	      	a.block2 = block2;
 	    }
-
+	    if (block2 == TOW){
+			nxtDisplayTextLine(2, "Tow");
+			}
+		else if (block2 == KICKSTAND) {
+			nxtDisplayTextLine(2, "Kickstand");
+		}
+}
+			done = false;
 	    eraseDisplay();
-	    int block3 = PARKING_END;
-		nxtDisplayString(0, "Next Step 3");
 
-		if (block3 == PARKING_END)
-			nxtDisplayString(2, "Parking");
-		else
-			nxtDisplayString(2, "Stop");
+	 while (!done) {
+	    int block3 = PARKING_END;
+		nxtDisplayTextLine(0, "Final Step");
 
 		switch (getButton()) {  // Get a button
 	      case 1: // Right arrow button
@@ -143,6 +141,11 @@ void displayOptionsMenu(Autonomous a)
 	      	done = true;
 	      	a.block3 = block3;
 	    }
+	    	if (block3 == PARKING_END)
+			nxtDisplayTextLine(2, "Parking");
+		else if (block3 == 0)
+			nxtDisplayTextLine(2, "Stop");
+
 	}
 	    done = true;
 }
