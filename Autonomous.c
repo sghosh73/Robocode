@@ -27,8 +27,20 @@
 
 //implement state machine for autonomous
 void runAutonomous(int instructions[]) {
-	int state = instructions[0];
+	bool done = false;
 
+	while (!done) {
+
+		int i = 0;
+
+		int state = instructions[i];
+		int nextState = instructions[i+1];
+
+		if (state == RAMP_STARTING) {
+			
+		}
+
+	}
 }
 
 task main()
