@@ -5,6 +5,8 @@
 Constants for autonomous
 */
 
+#define STOP -1
+
 #define RAMP_STARTING 0
 #define PARKING_STARTING 1
 
@@ -62,7 +64,7 @@ void displayOptionsMenu(int &instructions)
 		}
 	}
 
-		done = false;
+	done = false;
     eraseDisplay();
 
     //select next step
@@ -70,6 +72,10 @@ void displayOptionsMenu(int &instructions)
 	   int block1 = CENTER_SCORE;
 			nxtDisplayTextLine(0, "Next Step");
 		switch (getButton()) {  // Get a button
+		  case 0: //gray button
+		  	block1 = STOP;
+		  	break;
+
 	      case 1: // Right arrow button
 	        block1 = CENTER_SCORE; // Increase by a second
 	        break;
@@ -88,15 +94,25 @@ void displayOptionsMenu(int &instructions)
 			nxtDisplayTextLine(2, "Center Goal");
 		else if (block1 == TUBE_SCORE)
 			nxtDisplayTextLine(2, "Tube Goal");
+		else if (block1 == STOP)
+			nxtDisplayTextLine(2, "Stop");
 	}
+
+		if (instructions[1] == STOP) 
+			done = true;
+		else 
 			done = false;
-			eraseDisplay();
+		eraseDisplay();
 
 	   //select next step
 	   while (!done) {
 	     int block2 = 0;
 		nxtDisplayTextLine(0, "Next Step 2");
 		switch (getButton()) {  // Get a button
+		  case 0: //gray button
+		  	block2 = STOP;
+		  	break;
+
 	      case 1: // Right arrow button
 	        block2 = TOW; // Increase by a second
 	        break;
@@ -116,7 +132,13 @@ void displayOptionsMenu(int &instructions)
 		else if (block2 == KICKSTAND) {
 			nxtDisplayTextLine(2, "Kickstand");
 		}
-}
+		else if (block2 == STOP) {
+			nxtDisplayTextLine(2, "Stop");
+		}
+	}
+		if (instructions[2] == STOP) 
+			done = true;
+		else 
 			done = false;
 	    eraseDisplay();
 
@@ -131,7 +153,7 @@ void displayOptionsMenu(int &instructions)
 	        break;
 
 	      case 2: // Left arrow button
-	        block3 = 0;
+	        block3 = STOP;
 	        break;
 
 	      case 3:
@@ -141,7 +163,7 @@ void displayOptionsMenu(int &instructions)
 	    }
 	    	if (block3 == PARKING_END)
 			nxtDisplayTextLine(2, "Parking");
-		else if (block3 == 0)
+		else if (block3 == STOP)
 			nxtDisplayTextLine(2, "Stop");
 
 	}

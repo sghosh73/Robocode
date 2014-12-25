@@ -19,11 +19,6 @@
 #include "menu.h"
 #include "tasks.h"
 
-/*
-	distance constants
-*/
-#define RAMP_DISTANCE 0
-
 
 //implement state machine for autonomous
 void runAutonomous(int instructions[]) {
@@ -37,9 +32,69 @@ void runAutonomous(int instructions[]) {
 		int nextState = instructions[i+1];
 
 		if (state == RAMP_STARTING) {
-			
+			switch(nextState) {
+				case TUBE_SCORE:
+					break;
+				case CENTER_SCORE:
+					break;
+				case STOP:
+					break;
+			}
+			i++;
 		}
-
+		else if (state == PARKING_START) {
+			switch(nextState) {
+				case TUBE_SCORE:
+					break;
+				case CENTER_SCORE:
+					break;
+				case STOP:
+					break;
+			}
+			i++;
+		}
+		else if (state == TUBE_SCORE) {
+			switch(nextState) {
+				case KICKSTAND:
+					break;
+				case TOW:
+					break;
+				case STOP:
+					break;
+			}
+			i++;
+		}
+		else if (state == CENTER_SCORE) {
+			switch(nextState) {
+				case KICKSTAND:
+					break;
+				case TOW:
+					break;
+				case STOP:
+					break;
+			}
+			i++;
+		}
+		else if (state == KICKSTAND) {
+			switch(nextState) {
+				case PARKING_END:
+					done = true;
+					break;
+				case STOP:
+					done = true;
+					break;
+			}
+		}
+		else if (state == TOW) {
+			switch(nextState) {
+				case PARKING_END:
+					done = true;
+					break;
+				case STOP:
+					done = true;
+					break;
+			}
+		}
 	}
 }
 

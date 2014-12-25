@@ -28,8 +28,8 @@ void driveForward(int speed, int tiles)
 	nMotorEncoder[right] = 0;
 	nMotorEncoder[left] = 0;
 
-	nMotorEncoderTarget[right] = distance;
-	nMotorEncoderTarget[left] = distance;
+	nMotorEncoderTarget[right] = TILE_LENGTH * distance;
+	nMotorEncoderTarget[left] = TILE_LENGTH * distance;
 
 	motor[left] = -speed;
 	motor[right] = speed;
@@ -106,7 +106,7 @@ void point_turn(int speed, int tiles)
 }
 
 
-void raiseLift()
+void raiseLift(int level)
 {
 	nMotorEncoder[lift] = 0;
 	nMotorEncoderTarget = LIFT_HEIGHT

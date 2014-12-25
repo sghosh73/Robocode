@@ -20,59 +20,9 @@
 #define DOOR_UP 0
 #define DOOR_DOWN 0
 
-/*
- THESE ARE ENCODER VALUES FOR LIFT LEVELS
-*/
+#define HOOK_DOWN 0
+#define HOOK_UP 0
 
-// #define FIRST_LEVEL
-// #define SECOND_LEVEL
-// #define THIRD_LEVEL
-
-/*
-Drive configuration:
-
-	   Front
-	  _______
-  1 O|       |O 2
-	 |       |
-	 |       |
-	 |       |
-  3 O|_______|O 4
-
-  1: cos(theta-PI/4)
-  2: cos(theta+PI/4)
-  3: cos(theta+PI/4)
-  4: cos(theta-PI/4)
-
-  Positive rotation is forward
-*/
-void HoloDrive()
-{
-	getJoystickSettings(joystick);
-
-	int threshold = 20; //minimum value of joystick before activating drive
-
-	int x = joystick.joy1_x1;
-	int y = -1*joystick.joy1_y1; //y is inverted
-
-	float angle = atan2(y,x)
-	float length = sqrt(pow(x,2)+pow(y,2));
-
-	if(length < threshold){
-		length = 0;
-    }
-
-	int f_left = -1*cos(angle-(PI/4))*length;
-	int f_right = -1*cos(angle+(PI/4))*length;
-	int b_left = 100*cos(angle+(PI/4))*length;
-	int b_right = 100*cos(angle-(PI/4))*length;
-
-	motor[front_left] = f_left;
-	motor[front_right] = f_right;
-	motor[back_left] = b_left;
-	motor[back_right] = b_right;
-
-}
 
 void TankDrive()
 {
@@ -80,7 +30,7 @@ void TankDrive()
 
 	int leftspeed =  joystick.joy1_y1;
  	int rightspeed =  joystick.joy1_y2;
-  int threshold = 20;
+  	int threshold = 20;
 
 
 	if (abs(leftspeed) < threshold) {
@@ -97,7 +47,7 @@ void TankDrive()
 		motor[back_right] = 0;
 	}
 	else {
-		motor[front_right] = -1* rightspeed;
+		motor[front_right] = -rightspeed;
 		motor[back_right] = -rightspeed;
 	}
 }
@@ -107,41 +57,24 @@ task main()
 	motor[spinnerA] = 0;
   	motor[spinnerB] = 0;
 
+ 	motor[lift] = 0;
+
 	servo[spinner1] = 128;
 	servo[spinner2] = 128;
 
-	servo[door] = DOOR_UP;
-
-	bool switcher = false;
-	bool isPressed = false;
+	bool hookSwitcher = false;
+	bool hookPressed = false;
 
 	bool doorSwitcher = false;
 	bool doorPressed = false;
+
+	int threshold = 20;
 
 	getJoystickSettings(joystick);
 
 	while (true) {
 
-		if(joy1Btn(01) && !isPressed){
-			if (switcher){
-			   switcher = false;
-		  }
-		  else {
-		     switcher = true;
-		  }
-	  		isPressed = true;
-		}
-
-		if (!joy1Btn(01) && isPressed) {
-    		isPressed = false;
-    	}
-
-		if (!switcher) {
-     	HoloDrive();
-		}
-    	else {
-    	HoloDrive();
-    	}
+		TankDrive();
 
 		//stops spinners
 		if (joy1Btn(05)) {
@@ -161,12 +94,16 @@ task main()
 			servo[spinner2] = 200;
 		}
 
-		//lift up
-		if (joy2Btn(04) || joy1Btn(04)) {
+		//raise or lower lift (controller 2)
+		if (abs(joystick.joy2_y2) > threshold) {
+			motor[lift] = 0.5 * joystick.joy2_y2;
+		}
+		//lift up (controller 1)
+		else if (joy1Btn(04) && abs(joystick.joy2_y2) < threshold) {
 			motor[lift] = 50;
 		}
-		//lift donw
-		else if (joy2Btn(02) || joy1Btn(02)) {
+		//lift down (controller 1)
+		else if (joy1Btn(02) && abs(joystick.joy2_y2) < threshold) {
 			motor[lift] = -50;
 		}
 		//lift stopped
@@ -177,14 +114,14 @@ task main()
 		if ((joy1Btn(03) || joy2Btn(03)) && !doorPressed) {
 			if (doorSwitcher){
 			   doorSwitcher = false;
-		  }
-		  else {
-		     doorSwitcher = true;
-		  }
+		  	}
+		  	else {
+		     	doorSwitcher = true;
+		  	}
 	  		doorPressed = true;
 		}
 
-		if (!joy1Btn(01) && doorPressed) {
+		if (!(joy1Btn(03) || joy2Btn(03)) && doorPressed) {
     		doorPressed = false;
     	}
 
@@ -195,5 +132,27 @@ task main()
     		servo[door] = DOOR_UP;
     	}
 
+    	if (joy1Btn(06) && !hookPressed) {
+			if (hookSwitcher){
+			   hookSwitcher = false;
+		  	}
+		  	else {
+		     	hookSwitcher = true;
+		  	}
+	  		hookPressed = true;
+		}
+
+		if (!joy1Btn(06) && hookPressed) {
+    		hookPressed = false;
+    	}
+
+		if (!hookSwitcher) {
+     		servo[hook1] = HOOK_DOWN;
+     		servo[hook2] = HOOK_DOWN;
+		}
+    	else {
+    		servo[hook1] = HOOK_UP;
+    		servo[hook2] = HOOK_UP;
+    	}
 	}
 }
