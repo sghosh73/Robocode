@@ -1,24 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-/*
-Constants for autonomous
-*/
-
-#define STOP -1
-
-#define RAMP_STARTING 0
-#define PARKING_STARTING 1
-
-#define TUBE_SCORE 0
-#define CENTER_SCORE 1
-
-#define KICKSTAND 0
-#define TOW 1
-
-#define PARKING_END 1
-
-
+#include "constants.h"
 
 int getButton()
 {

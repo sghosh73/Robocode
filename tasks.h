@@ -18,108 +18,14 @@
 #ifndef TASKS_H
 #define TASKS_H
 
-#define LIFT_HEIGHT 0
-#define DOOR_UP 0
-#define DOOR_DOWN 0
-#define TILE_LENGTH 0
+#include "JoystickDriver.c"
+#include "utilities.h"
+#include "constants.h"
 
-void driveForward(int speed, int tiles)
+void score_ball(int goal, int startPos)
 {
-	nMotorEncoder[right] = 0;
-	nMotorEncoder[left] = 0;
 
-	nMotorEncoderTarget[right] = TILE_LENGTH * distance;
-	nMotorEncoderTarget[left] = TILE_LENGTH * distance;
-
-	motor[left] = -speed;
-	motor[right] = speed;
-
-	while (nMotorStaRunState[left] != runStateIdle) {}
-
-	motor[left] = 0;
-	motor[right] = 0;
 }
 
-
-void driveBackward(int speed, int tiles)
-{
-	nMotorEncoder[right] = 0;
-	nMotorEncoder[left] = 0;
-
-	nMotorEncoderTarget[right] = TILE_LENGTH * tiles;
-	nMotorEncoderTarget[left] = TILE_LENGTH * tiles;
-
-	motor[left] = speed;
-	motor[right] = -speed;
-
-	while (nMotorStaRunState[left] != runStateIdle) {}
-
-	motor[left] = 0;
-	motor[right] = 0;
-}
-
-void turnRight(int speed, int tiles)
-{
-	nMotorEncoder[right] = 0;
-
-	nMotorEncoderTarget[right] = TILE_LENGTH * tiles;
-
-	motor[right] = speed;
-
-	while (nMotorStaRunState[right] != runStateIdle) {}
-
-	motor[right] = 0;
-	wait1Msec(10);
-}
-
-void turnLeft(int speed, int tiles)
-{
-	nMotorEncoder[left] = 0;
-
-	nMotorEncoderTarget[left] = TILE_LENGTH * tiles;
-
-	motor[left] = speed;
-
-	while (nMotorStaRunState[left] != runStateIdle) {}
-
-	motor[right] = 0;
-	wait1Msec(10);
-}
-
-void point_turn(int speed, int tiles)
-{
-	nMotorEncoder[left] = 0;
-	nMotorEncoder[right] = 0;
-
-	nMotorEncoderTarget[right] = TILE_LENGTH * tiles;
-	nMotorEncoderTarget[left] = TILE_LENGTH * tiles;
-
-	motor[left] = speed;
-	motor[right] = -speed;
-
-	while (nMotorStaRunState[left] != runStateIdle) {}
-
-	motor[left] = 0;
-	motor[right] = 0;
-
-	wait1Msec(10);
-}
-
-
-void raiseLift(int level)
-{
-	nMotorEncoder[lift] = 0;
-	nMotorEncoderTarget = LIFT_HEIGHT
-	motor[lift] = 50;
-	while (nMotorStaRunState[lift] != runStateIdle) {}
-	motor[lift] = 0;
-}
-
-void depositBall()
-{
-	servo[door] = DOOR_DOWN;
-	wait1Msec(1000);
-	servo[door] = DOOR_UP;
-}
 
 #endif
