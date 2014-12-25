@@ -31,6 +31,12 @@ Constants for utilities
 #define HOOK_DOWN 0
 #define HOOK_UP 0
 
+/*
+Constants for tasks
+*/
+
+#define TUBE_DISTANCE 10
+#define RAMP_DISTANCE 10
 
 
 #endif

@@ -35,13 +35,14 @@ void runAutonomous(int instructions[]) {
 		if (state == RAMP_STARTING) {
 			switch(nextState) {
 				case TUBE_SCORE:
-					score_ball(TUBE_SCORE, RAMP_STARTING);
+					score_ball_tube(RAMP_STARTING);
 					break;
 				case CENTER_SCORE:
-					score_ball(CENTER_SCORE, RAMP_STARTING);
+					score_ball_center(RAMP_STARTING);
 					break;
 				case STOP:
 					stop();
+					done = true;
 					break;
 			}
 			i++;
@@ -49,13 +50,14 @@ void runAutonomous(int instructions[]) {
 		else if (state == PARKING_STARTING) {
 			switch(nextState) {
 				case TUBE_SCORE:
-					score_ball(TUBE_SCORE, PARKING_STARTING);
+					score_ball_tube(PARKING_STARTING);
 					break;
 				case CENTER_SCORE:
-					score_ball(CENTER_SCORE, PARKING_STARTING);
+					score_ball_center(PARKING_STARTING);
 					break;
 				case STOP:
 					stop();
+					done = true;
 					break;
 			}
 			i++;
@@ -68,6 +70,7 @@ void runAutonomous(int instructions[]) {
 					break;
 				case STOP:
 					stop();
+					done = true;
 					break;
 			}
 			i++;
@@ -80,6 +83,7 @@ void runAutonomous(int instructions[]) {
 					break;
 				case STOP:
 					stop();
+					done = true;
 					break;
 			}
 			i++;

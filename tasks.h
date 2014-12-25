@@ -22,7 +22,37 @@
 #include "utilities.h"
 #include "constants.h"
 
-void score_ball(int goal, int startPos)
+/*
+TODO: VALUES FOR DRIVE NEED TO BE TESTED, CHANGED
+*/
+
+void score_ball_tube(int startPos)
+{
+	if (startPos == RAMP_STARTING) {
+		while (SensorValue(ultrasonic) < TUBE_DISTANCE) { //drive until TUBE_DISTANCE away from first tube
+			driveForward(50, -1);
+		}
+		stop();
+		clamp();
+		raiseLift(LIFT_TUBE);
+		depositBall();
+	}
+	else { //starting on ramp
+		while (sensorValue(ultrasonic) < RAMP_DISTANCE) {
+			driveBackWard(25, -1);
+		}
+		turnLeft(50, 100);
+		while (SensorValue(ultrasonic) < TUBE_DISTANCE) { //drive until TUBE_DISTANCE away from first tube
+			driveForward(50, -1);
+		}
+		stop();
+		clamp();
+		raiseLift(LIFT_TUBE);
+		depositBall();
+	}
+}
+
+void score_ball_center(int startPos)
 {
 
 }

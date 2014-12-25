@@ -22,37 +22,57 @@
 
 void driveForward(int speed, int distance)
 {
-	nMotorEncoder[right] = 0;
-	nMotorEncoder[left] = 0;
+	if (distance != -1) {
+		nMotorEncoder[right] = 0;
+		nMotorEncoder[left] = 0;
 
-	nMotorEncoderTarget[right] = distance;
-	nMotorEncoderTarget[left] = distance;
+		nMotorEncoderTarget[right] = distance;
+		nMotorEncoderTarget[left] = distance;
 
-	motor[left] = -speed;
-	motor[right] = speed;
+		motor[front_left] = speed;
+		motor[back_left] = speed;
+		motor[front_right] = -speed;
+		motor[front_left] = -speed;
 
-	while (nMotorStaRunState[left] != runStateIdle) {}
+		while (nMotorStaRunState[left] != runStateIdle) {}
 
-	motor[left] = 0;
-	motor[right] = 0;
+		motor[left] = 0;
+		motor[right] = 0;
+	}
+	else { //no specified distance
+		motor[front_left] = speed;
+		motor[back_left] = speed;
+		motor[front_right] = -speed;
+		motor[front_left] = -speed;
+	}
 }
 
 
 void driveBackward(int speed, int distance)
 {
-	nMotorEncoder[right] = 0;
-	nMotorEncoder[left] = 0;
+	if (distance != -1) {
+		nMotorEncoder[right] = 0;
+		nMotorEncoder[left] = 0;
 
-	nMotorEncoderTarget[right] = distance;
-	nMotorEncoderTarget[left] = distance;
+		nMotorEncoderTarget[right] = distance;
+		nMotorEncoderTarget[left] = distance;
 
-	motor[left] = speed;
-	motor[right] = -speed;
+		motor[front_left] = -speed;
+		motor[back_left] = -speed;
+		motor[front_right] = speed;
+		motor[front_left] = speed;
 
-	while (nMotorStaRunState[left] != runStateIdle) {}
+		while (nMotorStaRunState[left] != runStateIdle) {}
 
-	motor[left] = 0;
-	motor[right] = 0;
+		motor[left] = 0;
+		motor[right] = 0;
+	}
+	else { //no specified distance
+		motor[front_left] = -speed;
+		motor[back_left] = -speed;
+		motor[front_right] = speed;
+		motor[front_left] = speed;
+	}
 }
 
 void turnRight(int speed, int distance)
@@ -61,7 +81,8 @@ void turnRight(int speed, int distance)
 
 	nMotorEncoderTarget[right] = distance;
 
-	motor[right] = speed;
+	motor[front_right] = speed;
+	motor[back_right] = speed;
 
 	while (nMotorStaRunState[right] != runStateIdle) {}
 
@@ -75,7 +96,8 @@ void turnLeft(int speed, int distance)
 
 	nMotorEncoderTarget[left] = distance;
 
-	motor[left] = speed;
+	motor[front_left] = speed;
+	motor[back_left] = speed;
 
 	while (nMotorStaRunState[left] != runStateIdle) {}
 
@@ -91,8 +113,10 @@ void point_turn(int speed, int distance)
 	nMotorEncoderTarget[right] = distance;
 	nMotorEncoderTarget[left] = distance;
 
-	motor[left] = speed;
-	motor[right] = -speed;
+	motor[front_left] = speed;
+	motor[back_left] = speed;
+	motor[front_right] = -speed;
+	motor[front_left] = -speed;
 
 	while (nMotorStaRunState[left] != runStateIdle) {}
 
@@ -116,7 +140,7 @@ void raiseLift(int level)
 void depositBall()
 {
 	servo[door] = DOOR_DOWN;
-	wait1Msec(1000);
+	wait1Msec(2000);
 	servo[door] = DOOR_UP;
 }
 
