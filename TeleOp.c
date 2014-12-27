@@ -3,13 +3,12 @@
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C1_2,     motorE,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, openLoop)
-#pragma config(Servo,  srvo_S4_C2_1,    hook,                 tServoStandard)
-#pragma config(Servo,  srvo_S4_C2_2,    hook,                 tServoStandard)
+#pragma config(Servo,  srvo_S4_C2_1,    hook1,                 tServoStandard)
+#pragma config(Servo,  srvo_S4_C2_2,    hook2,                 tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_3,    spinner1,             tServoContinuousRotation)
 #pragma config(Servo,  srvo_S4_C2_4,    spinner2,             tServoContinuousRotation)
 #pragma config(Servo,  srvo_S4_C2_5,    door,                 tServoStandard)
@@ -17,11 +16,11 @@
 
 #include "JoystickDriver.c"
 
-#define DOOR_UP 0
-#define DOOR_DOWN 0
+#define DOOR_DOWN 90
+#define DOOR_UP 240
 
-#define HOOK_DOWN 0
-#define HOOK_UP 0
+#define HOOK_DOWN 120
+#define HOOK_UP 200
 
 
 void TankDrive()
@@ -62,6 +61,11 @@ task main()
 	servo[spinner1] = 128;
 	servo[spinner2] = 128;
 
+	servo[hook1] = HOOK_UP;
+	servo[hook2] = HOOK_UP;
+
+	servo[door] = DOOR_UP;
+
 	bool hookSwitcher = false;
 	bool hookPressed = false;
 
@@ -96,15 +100,15 @@ task main()
 
 		//raise or lower lift (controller 2)
 		if (abs(joystick.joy2_y2) > threshold) {
-			motor[lift] = 0.5 * joystick.joy2_y2;
+			motor[lift] = joystick.joy2_y2;
 		}
 		//lift up (controller 1)
 		else if (joy1Btn(04) && abs(joystick.joy2_y2) < threshold) {
-			motor[lift] = 50;
+			motor[lift] = 100;
 		}
 		//lift down (controller 1)
 		else if (joy1Btn(02) && abs(joystick.joy2_y2) < threshold) {
-			motor[lift] = -50;
+			motor[lift] = -100;
 		}
 		//lift stopped
 		else {
@@ -148,11 +152,11 @@ task main()
 
 		if (!hookSwitcher) {
      		servo[hook1] = HOOK_DOWN;
-     		servo[hook2] = HOOK_DOWN;
+     		servo[hook2] = HOOK_UP-40;
 		}
     	else {
     		servo[hook1] = HOOK_UP;
-    		servo[hook2] = HOOK_UP;
+    		servo[hook2] = HOOK_DOWN-40;
     	}
 	}
 }
