@@ -61,9 +61,6 @@ task main()
 	servo[spinner1] = 128;
 	servo[spinner2] = 128;
 
-	servo[hook1] = HOOK_UP;
-	servo[hook2] = HOOK_UP;
-
 	servo[door] = DOOR_UP;
 
 	bool hookSwitcher = false;
