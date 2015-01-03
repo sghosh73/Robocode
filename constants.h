@@ -22,14 +22,14 @@ Constants for autonomous
 Constants for utilities
 */
 
-#define LIFT_CENTER 0
-#define LIFT_TUBE 0
+#define LIFT_CENTER 200
+#define LIFT_TUBE 100
 
-#define DOOR_UP 0
-#define DOOR_DOWN 0
+#define DOOR_UP 90
+#define DOOR_DOWN 240
 
-#define HOOK_DOWN 0
-#define HOOK_UP 0
+#define HOOK_DOWN 120
+#define HOOK_UP 200
 
 /*
 Constants for tasks
