@@ -17,7 +17,7 @@
 #include "JoystickDriver.c"
 
 #define DOOR_DOWN 90
-#define DOOR_UP 240
+#define DOOR_UP 250
 
 #define HOOK_DOWN 120
 #define HOOK_UP 200
