@@ -88,7 +88,7 @@ task main()
 
 		//spins spinner
 		if (joy1Btn(07)) {
-			motor[spinnerA] = -100;```				
+			motor[spinnerA] = -100;
 			motor[spinnerB] = -100;
 
 			servo[spinner1] = 100;
@@ -137,9 +137,9 @@ task main()
      		servo[hook1] = HOOK_UP+15;
      		servo[hook2] = 180-HOOK_UP;
 		}
-    	if (joy1Btn(08))
+    	if (joy1Btn(08)) {
     		servo[hook1] = HOOK_DOWN+20;
-    		servo[hook2] = 180-HOOK_DOWN;
+    		servo[hook2] = HOOK_DOWN-50;
     	}
 	}
 }

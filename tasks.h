@@ -28,7 +28,7 @@ TODO: VALUES FOR DRIVE NEED TO BE TESTED, CHANGED
 
 void score_ball_tube(int startPos)
 {
-	if (startPos == RAMP_STARTING) {
+	if (startPos == PARKING_STARTING) {
 		while (SensorValue(ultrasonic) < TUBE_DISTANCE) { //drive until TUBE_DISTANCE away from first tube
 			driveForward(50, -1);
 		}
