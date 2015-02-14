@@ -3,12 +3,21 @@
 #pragma config(Sensor, S4,     ,               sensorI2CMuxController)
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
+<<<<<<< HEAD
 #pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop, encoder)
 #pragma config(Motor,  mtr_S4_C1_2,     motorE,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, PIDControl, encoder)
+=======
+#pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C1_2,     motorE,        tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, PIDControl)
+#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, PIDControl)
+#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, PIDControl)
+#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, PIDControl)
+>>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 #pragma config(Servo,  srvo_S4_C2_1,    hook1,                tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_2,    hook2,                tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_3,    spinner1,             tServoContinuousRotation)
@@ -25,6 +34,7 @@ task main()
 
   waitForStart();
 
+<<<<<<< HEAD
   driveBackward(100, 95);
 
   /*
@@ -67,4 +77,22 @@ task main()
 	*/
 
 
+=======
+
+	//clamp();
+
+	/*
+	raiseLift(0);
+	depositBall();
+	*/
+
+
+	/*
+	point_turn(50, 2000, 1);
+	driveBackward(50, 600);
+	point_turn(50, 3200, -1);
+	driveBackward(50, 5000);
+	*/
+
+>>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 }

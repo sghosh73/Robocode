@@ -92,10 +92,15 @@ task main()
 
 		//spins spinner
 		if (joy1Btn(07)) {
+<<<<<<< HEAD
 			//motor[spinnerA] = -100;
 			//motor[spinnerB] = -100;
 
 			motor[collector] = 100;
+=======
+			motor[spinnerA] = -100;
+			motor[spinnerB] = -100;
+>>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 
 			servo[spinner1] = 100;
 			servo[spinner2] = 200;
