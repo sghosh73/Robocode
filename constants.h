@@ -23,10 +23,10 @@ Constants for utilities
 */
 
 #define LIFT_CENTER 200
-#define LIFT_TUBE 100
+#define LIFT_TUBE 6700
 
 #define DOOR_UP 90
-#define DOOR_DOWN 240
+#define DOOR_DOWN 250
 
 #define HOOK_DOWN 120
 #define HOOK_UP 200
@@ -35,7 +35,7 @@ Constants for utilities
 Constants for tasks
 */
 
-#define TUBE_DISTANCE 10
+#define TUBE_DISTANCE 18
 #define RAMP_DISTANCE 10
 
 
