@@ -18,19 +18,18 @@
 
 #include "JoystickDriver.c"
 
-#define DOOR_DOWN 90
-#define DOOR_UP 250
+#define DOOR_DOWN 255
+#define DOOR_UP 90
 
 #define HOOK_DOWN 120
 #define HOOK_UP 200
 
-
-void TankDrive()
+void TankDrive(float adjust)
 {
 	getJoystickSettings(joystick);			 // Allows use of Joysticks
 
-	int leftspeed =  joystick.joy1_y1;
- 	int rightspeed =  joystick.joy1_y2;
+	int leftspeed =  adjust * joystick.joy1_y1;
+ 	int rightspeed =  adjust * joystick.joy1_y2;
   	int threshold = 20;
 
 
@@ -71,16 +70,40 @@ task main()
 	bool doorSwitcher = false;
 	bool doorPressed = false;
 
+	bool adjustSwitcher = false;
+	bool adjustPressed = false;
+
 	int threshold = 20;
 
 	getJoystickSettings(joystick);
 
 	while (true) {
 
-		TankDrive();
+
+	if (joy1Btn(01) && !adjustPressed) {
+			if (adjustSwitcher){
+			   adjustSwitcher = false;
+		  	}
+		  	else {
+		     	adjustSwitcher = true;
+		  	}
+	  		adjustPressed = true;
+		}
+
+		if (joy1Btn(01) && adjustPressed) {
+    		adjustPressed = false;
+    	}
+
+		if (!adjustSwitcher) {
+     		TankDrive(1.0);
+		}
+    	else {
+    		TankDrive(0.25);
+    	}
 
 		//stops spinners
 		if (joy1Btn(05)) {
+
 			//motor[spinnerA] = 0;
 			//motor[spinnerB] = 0;
 
@@ -92,15 +115,13 @@ task main()
 
 		//spins spinner
 		if (joy1Btn(07)) {
-<<<<<<< HEAD
 			//motor[spinnerA] = -100;
 			//motor[spinnerB] = -100;
 
-			motor[collector] = 100;
-=======
+			motor[collector] = 40;
+
 			motor[spinnerA] = -100;
 			motor[spinnerB] = -100;
->>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 
 			servo[spinner1] = 100;
 			servo[spinner2] = 200;

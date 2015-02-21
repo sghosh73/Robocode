@@ -1,21 +1,13 @@
 #pragma config(Hubs,  S4, HTMotor,  HTServo,  HTMotor,  HTMotor)
-#pragma config(Sensor, S2,     sonar,          sensorSONAR)
 #pragma config(Sensor, S4,     ,               sensorI2CMuxController)
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop, encoder)
-#pragma config(Motor,  mtr_S4_C1_2,     motorE,        tmotorTetrix, openLoop)
-<<<<<<< HEAD
-#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, PIDControl, encoder)
-=======
-#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, PIDControl)
-#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, PIDControl)
-#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, PIDControl)
-#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, PIDControl)
->>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
+#pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C1_2,     collector,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S4_C2_1,    hook1,                tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_2,    hook2,                tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_3,    spinner1,             tServoContinuousRotation)
@@ -40,11 +32,9 @@ void driveForward(int speed, int distance)
 		motor[front_right] = -speed;
 		motor[back_right] = -speed;
 
-<<<<<<< HEAD
 		while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);}
-=======
+
 		while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {}
->>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 
 		motor[front_left] = 0;
 		motor[back_left] = 0;
@@ -71,11 +61,7 @@ void driveBackward(int speed, int distance)
 		motor[front_right] = speed;
 		motor[back_right] = speed;
 
-<<<<<<< HEAD
 		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
-=======
-		nxtDisplayTextLine(3, "%d", nMotorEncoder[front_left]);
->>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 
 		while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {}
 
@@ -145,40 +131,44 @@ void point_turn(int speed, int distance, int direction)
 void raiseLift(int level)
 {
 	nMotorEncoder[lift] = 0;
-<<<<<<< HEAD
-	if (level == 0) {
-		while (abs(nMotorEncoder[lift]) < (LIFT_TUBE))  {
+	if (level == 1) {
+		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER))  {
 			motor[lift] = -75;
-		} 	nMotorEncoder[lift] = 0; ;
+			nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
+		} 	motor[lift] = 0;
+		nMotorEncoder[lift] = 0;
 	}
-
 	else {
-		while (abs(nMotorEncoder[lift]) < (LIFT_TUBE))  {
+		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER))  {
 			motor[lift] = 75;
 		}
-=======
-	motor[lift] = 75;
-	if (level == 0) {
-		while (abs(nMotorEncoder[lift]) < (LIFT_TUBE)) {}
+	}
+}
+
+void lowerLift(int level)
+{
+	nMotorEncoder[lift] = 0;
+	if (level == 1) {
+		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER))  {
+			motor[lift] = 40;
+		} 	motor[lift] = 0;
+		nMotorEncoder[lift] = 0;
 	}
 	else {
-		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER)) {}
->>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
+		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER))  {
+			motor[lift] = 75;
+		}
 	}
-	motor[lift] = 0;
 }
 
 void depositBall()
 {
 	servo[door] = 250;
-<<<<<<< HEAD
 	wait1Msec(3000);
 	servo[door] = 90;
 	wait1Msec(300);
-=======
 	wait1Msec(1500);
 	servo[door] = 90;
->>>>>>> eba8a9d2d2cfa8c809fa4b369232d2db12fbb735
 }
 
 void clamp()
