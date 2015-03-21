@@ -1,5 +1,6 @@
 #pragma config(Hubs,  S4, HTMotor,  HTServo,  HTMotor,  HTMotor)
-#pragma config(Sensor, S4,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S2,     sonar,          sensorSONAR)
+#pragma config(Sensor, S3,     color,          sensorColorNxtFULL)
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop)
@@ -18,11 +19,41 @@
 
 #include "utilities.h"
 #include "JoystickDriver.c"
-#include "hitechnic-irseeker-v2.h"
+
 
 task main()
 {
+
 	waitForStart();
 
-	point_turn(75, 2000, 1);
+	string sColor;
+	driveBackward(50, 2500);
+	wait1Msec(2000);
+	int distance = SensorValue[sonar];
+	wait1Msec(2000);
+	if (distance < 50) {
+		driveBackward(50, 500);
+		string sColor;
+			switch (SensorValue[color])
+    	{
+      	case BLACKCOLOR:    sColor = "Black";     break;
+      	case BLUECOLOR:     sColor = "Blue";      break;
+      	case GREENCOLOR:    sColor = "Green";     break;
+      	case YELLOWCOLOR:   sColor = "Yellow";    break;
+      	case REDCOLOR:      sColor = "Red";       break;
+      	case WHITECOLOR:    sColor = "White";     break;
+      	default:            sColor = "???";       break;
+    }
+    if (sColor == "YELLOW") {
+    	driveForward(50, 1000);
+    	raiseLift(1);
+    	depositBall();
+    	lowerLift(1);
+  	}
+	}
+	else {
+		while (true) {
+			nxtDisplayBigTextLine(3, "%d\n", distance);
+		}
+	}
 }

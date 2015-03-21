@@ -22,8 +22,8 @@ Constants for autonomous
 Constants for utilities
 */
 
-#define LIFT_CENTER 5700
-#define LIFT_TUBE 1000
+#define LIFT_CENTER 4700
+#define LIFT_TUBE 2000
 
 #define DOOR_DOWN 255
 #define DOOR_UP 90
