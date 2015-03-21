@@ -38,5 +38,6 @@ Constants for tasks
 #define TUBE_DISTANCE 18
 #define RAMP_DISTANCE 10
 
+#define TILE_LENGTH 2000
 
 #endif

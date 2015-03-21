@@ -32,9 +32,8 @@ void driveForward(int speed, int distance)
 		motor[front_right] = -speed;
 		motor[back_right] = -speed;
 
-		while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);}
-
-		while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {}
+		while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_left]) + abs(nMotorEncoder[back_right])
+			< (4 * distance)) { }
 
 		motor[front_left] = 0;
 		motor[back_left] = 0;
@@ -63,7 +62,8 @@ void driveBackward(int speed, int distance)
 
 		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
 
-		while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {}
+		while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_left]) + abs(nMotorEncoder[back_right])
+			< (4 * distance)) { }
 
 		motor[front_left] = 0;
 		motor[back_left] = 0;
@@ -86,7 +86,7 @@ void turnRight(int speed, int distance)
 	motor[front_right] = speed;
 	motor[back_right] = speed;
 
-	while (abs(nMotorEncoder[front_right]) < (distance)) {}
+	while (abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_right]) < (2 * distance)) {}
 
 	motor[front_right] = 0;
 	motor[back_right] = 0;
@@ -100,7 +100,7 @@ void turnLeft(int speed, int distance)
 	motor[front_left] = speed;
 	motor[back_left] = speed;
 
-	while (abs(nMotorEncoder[front_left]) < (distance)) {}
+	while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[back_left]) < (2 * distance)) {}
 
 	motor[front_left] = 0;
 	motor[back_left] = 0;
@@ -118,7 +118,9 @@ void point_turn(int speed, int distance, int direction)
 	motor[front_right] = direction* speed;
 	motor[back_right] = direction * speed;
 
-	while (abs(nMotorEncoder[front_left] + nMotorEncoder[front_right]) < (2 * distance)) {}
+	while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_left]) + abs(nMotorEncoder[back_right])
+			< (4 * distance)) { }
+
 
 	motor[front_left] = 0;
 	motor[back_left] = 0;
