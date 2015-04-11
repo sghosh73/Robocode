@@ -1,6 +1,6 @@
 #pragma config(Hubs,  S4, HTMotor,  HTServo,  HTMotor,  HTMotor)
-#pragma config(Sensor, S3,     sonar,          sensorSONAR)
-#pragma config(Sensor, S4,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S2,     sonar,          sensorSONAR)
+#pragma config(Sensor, S3,     color,          sensorColorNxtFULL)
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop)
@@ -26,14 +26,33 @@ task main()
 
 
 	waitForStart();
-	while (SensorValue[sonar] > 30) {
-		DriveBackward(50, -1);
+	servo[hook1] = HOOK_UP+15;
+  servo[hook2] = 180-HOOK_UP;
+  servo[door] = DOOR_UP;
+	while (SensorValue[sonar] > 15) {
+		driveBackward(50, -1);
 		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
 	}
 	stop();
-		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
-	raiseLift(CENTER_SCORE);
+	servo[hook1] = HOOK_DOWN+20;
+  servo[hook2] = HOOK_DOWN-50;
+	raiseLift(LIFT_MEDIUM);
 	depositBall();
-	lowerLift(CENTER_SCORE);
+	lowerLift(LIFT_MEDIUM);
+	point_turn(100, 2000, -1);
+	servo[hook1] = HOOK_UP+15;
+  servo[hook2] = 180-HOOK_UP;
+  wait10Msec(100);
+	point_turn(100, 1650, 1);
+   while (SensorValue[sonar] > 15) {
+		driveBackward(50, -1);
+		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
+	}
+	stop();
+	runCollector();
+	raiseLift(LIFT_LARGE);
+	depositBall();
+	lowerLift(LIFT_LARGE);
+
 
 }

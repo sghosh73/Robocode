@@ -20,40 +20,90 @@
 #include "utilities.h"
 #include "JoystickDriver.c"
 
+void score(long distance)
+{
+	if (distance < 50) {
+		wait1Msec(2000);
+		while (SensorValue[sonar] > 10) {
+			driveBackward(30, -1);
+		}
+		wait10Msec(100);
+			string sColor;
+				switch (SensorValue[color])
+	    	{
+	      	case BLACKCOLOR:    sColor = "Black";     break;
+	      	case BLUECOLOR:     sColor = "Blue";      break;
+	      	case GREENCOLOR:    sColor = "Green";     break;
+	      	case YELLOWCOLOR:   sColor = "Yellow";    break;
+	      	case REDCOLOR:      sColor = "Red";       break;
+	      	case WHITECOLOR:    sColor = "White";     break;
+	      	default:            sColor = "???";       break;
+	    }
+	    if (sColor == "Yellow") {
+	    	wait1Msec(2000);
+	    	driveForward(50, 400);
+	    	raiseLift(LIFT_CENTER);
+	    	depositBall();
+	    	lowerLift(LIFT_CENTER);
+	    	point_turn(100, 900, -1);
+	    	driveForward(40, 1150);
+	    	point_turn(100, 2000, -1);
+	    	driveForward(50, 4000);
+	  	}
+  	else {
+  		wait1Msec(2000);
+  		driveForward(50, 400);
+  		point_turn(100, 1000, -1);
+  		wait1Msec(500);
+  		driveBackward(50, 2300);
+  		wait1Msec(500);
+  		point_turn(100, 1000, 1);
+  		wait1Msec(500);
+  		driveBackward(50, 1700);
+  		wait1Msec(500);
+  		point_turn(100, 1200, 1);
+  		wait1Msec(500);
+  		driveForward(40, 150);
+  		raiseLift(LIFT_CENTER);
+    	depositBall();
+    	lowerLift(LIFT_CENTER);
+    	wait10Msec(50);
+    	point_turn(100, 800, -1);
+    	wait10Msec(50);
+    	driveForward(40, 300);
+    	wait10Msec(50);
+    	point_turn(100, 1000, -1);
+    	wait10Msec(50);
+    	driveForward(50, 5000);
+  	}
+  }
+  else  {
+  		wait10Msec(100);
+  		point_turn(100, 1000, -1);
+  		driveBackward(50, 2000);
+  		wait10Msec(50);
+  		point_turn(100, 1500, 1);
+  		driveBackward(50, 220);
+  		raiseLift(LIFT_CENTER);
+    	depositBall();
+    	lowerLift(LIFT_CENTER);
+    	wait10Msec(50);
+    	point_turn(100, 800, -1);
+    	wait10Msec(50);
+    	driveForward(40, 2800);
+    	wait10Msec(50);
+    	point_turn(100, 4900, -1);
+    	wait10Msec(50);
+    	driveForward(50, 5000);
+  }
+}
 
 task main()
 {
 
 	waitForStart();
-
-	string sColor;
 	driveBackward(50, 2500);
 	wait1Msec(2000);
-	int distance = SensorValue[sonar];
-	wait1Msec(2000);
-	if (distance < 50) {
-		driveBackward(50, 500);
-		string sColor;
-			switch (SensorValue[color])
-    	{
-      	case BLACKCOLOR:    sColor = "Black";     break;
-      	case BLUECOLOR:     sColor = "Blue";      break;
-      	case GREENCOLOR:    sColor = "Green";     break;
-      	case YELLOWCOLOR:   sColor = "Yellow";    break;
-      	case REDCOLOR:      sColor = "Red";       break;
-      	case WHITECOLOR:    sColor = "White";     break;
-      	default:            sColor = "???";       break;
-    }
-    if (sColor == "YELLOW") {
-    	driveForward(50, 1000);
-    	raiseLift(1);
-    	depositBall();
-    	lowerLift(1);
-  	}
-	}
-	else {
-		while (true) {
-			nxtDisplayBigTextLine(3, "%d\n", distance);
-		}
-	}
+	long distance = SensorValue[sonar];
+	score(distance);
 }

@@ -25,14 +25,16 @@ void driveForward(int speed, int distance)
 	if (distance != -1) {
 		nMotorEncoder[front_right] = 0;
 		nMotorEncoder[front_left] = 0;
+		nMotorEncoder[back_right] = 0;
+		nMotorEncoder[back_left] = 0;
 
 		motor[front_left] = speed;
 		motor[back_left] = speed;
 		motor[front_right] = -speed;
 		motor[back_right] = -speed;
 
-		while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_left]) + abs(nMotorEncoder[back_right])
-			< (4 * distance)) { }
+		while ((abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]))
+			< (2 * distance)) { }
 
 		motor[front_left] = 0;
 		motor[back_left] = 0;
@@ -53,16 +55,16 @@ void driveBackward(int speed, int distance)
 	if (distance != -1) {
 		nMotorEncoder[front_right] = 0;
 		nMotorEncoder[front_left] = 0;
+		nMotorEncoder[back_right] = 0;
+		nMotorEncoder[back_left] = 0;
 
 		motor[front_left] = -speed;
 		motor[back_left] = -speed;
 		motor[front_right] = speed;
 		motor[back_right] = speed;
 
-		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
-
-		while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_left]) + abs(nMotorEncoder[back_right])
-			< (4 * distance)) { }
+		while ((abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]))
+			< (2 * distance)) { }
 
 		motor[front_left] = 0;
 		motor[back_left] = 0;
@@ -77,6 +79,7 @@ void driveBackward(int speed, int distance)
 	}
 }
 
+
 void turnRight(int speed, int distance)
 {
 	nMotorEncoder[front_right] = 0;
@@ -85,7 +88,7 @@ void turnRight(int speed, int distance)
 	motor[front_right] = speed;
 	motor[back_right] = speed;
 
-	while (abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_right]) < (2 * distance)) {}
+	while (abs(nMotorEncoder[front_right]) < (distance)) {}
 
 	motor[front_right] = 0;
 	motor[back_right] = 0;
@@ -110,6 +113,8 @@ void point_turn(int speed, int distance, int direction)
 {
 	nMotorEncoder[front_left] = 0;
 	nMotorEncoder[front_right] = 0;
+	nMotorEncoder[back_left] = 0;
+	nMotorEncoder[back_right] = 0;
 
 
 	motor[front_left] = direction * speed;
@@ -117,8 +122,8 @@ void point_turn(int speed, int distance, int direction)
 	motor[front_right] = direction* speed;
 	motor[back_right] = direction * speed;
 
-	while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right]) + abs(nMotorEncoder[back_left]) + abs(nMotorEncoder[back_right])
-			< (4 * distance)) { }
+	while (abs(nMotorEncoder[front_left]) + abs(nMotorEncoder[front_right])
+			< (2 * distance)) { }
 
 
 	motor[front_left] = 0;
@@ -128,53 +133,60 @@ void point_turn(int speed, int distance, int direction)
 
 }
 
+void point_turn_time(int direction, int time)
+{
+	nMotorEncoder[front_left] = 0;
+	nMotorEncoder[front_right] = 0;
+	nMotorEncoder[back_left] = 0;
+	nMotorEncoder[back_right] = 0;
 
-void raiseLift(int level)
+
+	motor[front_left] = direction * 100;
+	motor[back_left] = direction * 100;
+	motor[front_right] = direction* 100;
+	motor[back_right] = direction * 100;
+
+	clearTimer(T1);
+
+	while (time1[T1] < time) {
+		motor[front_left] = direction * 100;
+		motor[back_left] = direction * 100;
+		motor[front_right] = direction* 100;
+		motor[back_right] = direction * 100;
+	}
+
+	motor[front_left] = 0;
+	motor[back_left] = 0;
+	motor[front_right] = 0;
+	motor[back_right] = 0;
+}
+
+
+void raiseLift(int height)
 {
 	nMotorEncoder[lift] = 0;
-	if (level == 1) {
-		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER))  {
+		while (abs(nMotorEncoder[lift]) < (height))  {
 			motor[lift] = -75;
 		}
 		motor[lift] = 0;
 		nMotorEncoder[lift] = 0;
-	}
-	else {
-		while (abs(nMotorEncoder[lift]) < (LIFT_TUBE))  {
-			motor[lift] = 75;
-		}
-		motor[lift] = 0;
-		nMotorEncoder[lift] = 0;
-	}
 }
 
-void lowerLift(int level)
+void lowerLift(int height)
 {
 	nMotorEncoder[lift] = 0;
-	if (level == 1) {
-		while (abs(nMotorEncoder[lift]) < (LIFT_CENTER))  {
-			motor[lift] = 30;
+		while (abs(nMotorEncoder[lift]) < (height))  {
+			motor[lift] = 40;
 		}
 		motor[lift] = 0;
 		nMotorEncoder[lift] = 0;
-	}
-	else {
-		while (abs(nMotorEncoder[lift]) < (LIFT_TUBE))  {
-			motor[lift] = 75;
-		}
-		motor[lift] = 0;
-		nMotorEncoder[lift] = 0;
-	}
 }
 
 void depositBall()
 {
-	servo[door] = 250;
+	servo[door] = DOOR_DOWN;
 	wait1Msec(3000);
-	servo[door] = 90;
-	wait1Msec(300);
-	wait1Msec(1500);
-	servo[door] = 90;
+	servo[door] = DOOR_UP;
 }
 
 void clamp()
@@ -189,4 +201,13 @@ void stop()
 	motor[front_right] = 0;
 	motor[back_left] = 0;
 	motor[back_right] = 0;
+}
+
+void runCollector()
+{
+	clearTimer(T1);
+	while (time10[T1] < 200) {
+		motor[collector] = 100;
+	}
+	motor[collector] = 0;
 }

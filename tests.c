@@ -1,20 +1,14 @@
 #pragma config(Hubs,  S4, HTMotor,  HTServo,  HTMotor,  HTMotor)
 #pragma config(Sensor, S2,     sonar,          sensorSONAR)
-#pragma config(Sensor, S4,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S3,     color,          sensorColorNxtFULL)
 #pragma config(Motor,  motorB,          spinnerA,      tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          spinnerB,      tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop, encoder)
-#pragma config(Motor,  mtr_S4_C1_2,     motorE,        tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S4_C1_1,     lift,          tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C1_2,     motorE,        tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, PIDControl)
-#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, PIDControl)
-#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, PIDControl)
-#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, PIDControl)
+#pragma config(Motor,  mtr_S4_C1_2,     collector,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_1,     front_right,   tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C3_2,     front_left,    tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C4_1,     back_right,    tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S4_C4_2,     back_left,     tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S4_C2_1,    hook1,                tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_2,    hook2,                tServoStandard)
 #pragma config(Servo,  srvo_S4_C2_3,    spinner1,             tServoContinuousRotation)
@@ -29,62 +23,6 @@
 task main()
 {
 
-  waitForStart();
-
-  driveBackward(100, 95);
-
-  /*
-  servo[hook1] = HOOK_UP+15;
-  servo[hook2] = 180-HOOK_UP;
-
-	nMotorEncoder[front_left] = 0;
-
-  while (SensorValue[sonar] > TUBE_DISTANCE) {
-  	driveBackward(50, -1);
-  	nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
-	}
-
-	stop();
-
-	int distance = nMotorEncoder[front_left];
-	nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
-
-
-	if (distance > 7000) {
-		nxtDisplayBigTextLine(3, "%d", nMotorEncoder[front_left]);
-		clamp();
-
-
-		raiseLift(0);
-		depositBall();
-
-		raiseLift(1);
-
-
-		point_turn(50, 800, 1);
-		wait1Msec(1500);
-		driveForward(50, 207);
-		wait1Msec(1500);
-		point_turn(50, 1000, -1);
-		driveForward(30,50);
-
-
-	}
-	*/
-
-	//clamp();
-
-	/*
-	raiseLift(0);
-	depositBall();
-	*/
-
-
-	/*
-	point_turn(50, 2000, 1);
-	driveBackward(50, 600);
-	point_turn(50, 3200, -1);
-	driveBackward(50, 5000);
-	*/
-
+	waitForStart();
+	point_turn_time(1, 800);
 }
